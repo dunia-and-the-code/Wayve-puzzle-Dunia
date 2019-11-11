@@ -41,10 +41,14 @@ class App extends Component {
 
   //Filtering data by selection
   filterData = (reasonSelector, actionSelector) => {
-    if(reasonSelector && actionSelector === 'All') {
+    if (reasonSelector && actionSelector === 'All') {
       return this.state.data
-    } else {
-      return this.state.data.filter(dataItem => dataItem.reason === reasonSelector || dataItem.action === actionSelector)
+    } else if (reasonSelector !== "All") {
+      // debugger
+      this.setState({ data: this.state.data.filter(dataItem => dataItem.reason === reasonSelector) })
+    } else if (actionSelector !== "All") {
+      
+      this.setState({ data: this.state.data.filter(dataItem => dataItem.action === actionSelector) })
     }
   }
 
@@ -62,8 +66,8 @@ class App extends Component {
           <Switch>
             <Route exact path='/' component={props => <HomePage />} />
             <Route exact path='/info' component={props => <Info />} />
-            <Route exact path='/data' component={props => <Data data={filterData(reasonSelector, actionSelector)} setReasonSelectorState={setReasonSelectorState}
-              reasonSelector={reasonSelector} actionSelector={actionSelector}
+            <Route exact path='/data' component={props => <Data data={data} 
+              reasonSelector={reasonSelector} actionSelector={actionSelector} setReasonSelectorState={setReasonSelectorState}
               setActionSelectorState={setActionSelectorState} />} />
             <Route exact path='/map' component={props => <Map data={data} />} />
           </Switch>
